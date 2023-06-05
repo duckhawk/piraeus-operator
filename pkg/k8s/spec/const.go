@@ -110,4 +110,6 @@ var (
 // are addressible.
 var (
 	Privileged = true
+	Level      = "s0"
+	Type       = "spc_t"
 )
