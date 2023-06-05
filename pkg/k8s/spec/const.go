@@ -40,6 +40,9 @@ const (
 	LinstorCertDirName          = "linstor-certs"
 	ModulesDir                  = "/lib/modules/" // "/usr/lib/modules/"
 	ModulesDirName              = "modules-dir"
+	UsrLibDir                   = "/usr/lib"
+	UsrLibDirMountPath          = "/host/usr/lib"
+	UsrLibDirName               = "usr-lib-dir"
 	SrcDir                      = "/usr/src"
 	SrcDirName                  = "src-dir"
 	SysDir                      = "/sys/"
@@ -100,7 +103,7 @@ var (
 	HostPathDirectoryType         = corev1.HostPathDirectory
 	HostPathDirectoryOrCreateType = corev1.HostPathDirectoryOrCreate
 	MountPropagationBidirectional = corev1.MountPropagationBidirectional
-	FileType = corev1.HostPathFile
+	FileType                      = corev1.HostPathFile
 )
 
 // Shared consts common to container security. These need to be vars, so they

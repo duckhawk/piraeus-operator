@@ -176,13 +176,6 @@ func (r *ReconcileLinstorController) reconcileSpec(ctx context.Context, controll
 		return r.finalizeControllerSet(ctx, controllerResource)
 	}
 
-	log.V(DEBUG).Info("reconcile finalizer")
-
-	err = r.addFinalizer(ctx, controllerResource)
-	if err != nil {
-		return fmt.Errorf("failed to add finalizer: %w", err)
-	}
-
 	log.V(DEBUG).Info("reconcile legacy config map name")
 
 	err = reconcileutil.DeleteIfOwned(ctx, r.client, &corev1.ConfigMap{ObjectMeta: getObjectMeta(controllerResource, "%s-config")}, controllerResource)
@@ -769,6 +762,15 @@ func newDeploymentForResource(controllerResource *piraeusv1.LinstorController) *
 						Name: controllerResource.Spec.LuksSecret,
 					},
 					Key: kubeSpec.LinstorLUKSPassphraseEnvName,
+				},
+			},
+		})
+		ds.Spec.Template.Spec.Volumes = append(ds.Spec.Template.Spec.Volumes, corev1.Volume{
+			Name: kubeSpec.UsrLibDirName,
+			VolumeSource: corev1.VolumeSource{
+				HostPath: &corev1.HostPathVolumeSource{
+					Path: kubeSpec.UsrLibDir,
+					Type: &kubeSpec.HostPathDirectoryType,
 				},
 			},
 		})
